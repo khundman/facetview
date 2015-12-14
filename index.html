@@ -30,24 +30,19 @@
   <script type="text/javascript">
 jQuery(document).ready(function($) {
   $('.facet-view-simple').facetview({
-    "search_url": 'http://localhost:9200/index_name/_search?',
+    "search_url": 'http://search-hyspiri-usewpxxqltz2vmfgyqg2zglosi.us-west-2.es.amazonaws.com/agu_2015/_search?',
     "search_index": 'elasticsearch',
     "datatype": 'json',
     "facets": [
-        {'field':'abstract', 'display':'Abstract'},
         {'field':'authors', 'display':'Authors'},
-        {'field':'pub_date', 'display':'Publication Date'},
-        {'field':'pub_year', 'display':'Publication Year'},
-        {'field':'title', 'display':'Title'},
-        {'field':'source', 'display':'Source'},
-        {'field':'issue', 'display':'Issue'}
+        {'field':'section', 'display':'Sections'}
     ],
     paging: {
         from: 0,
         size: 10
     },
-    "linechart_field"  : "pub_date",
-    "dendrogram_field" : "authors", 
+    // "linechart_field"  : "pub_date",
+    // "dendrogram_field" : "authors", 
     "display_images" : false,
     "result_display" : [
         [
@@ -59,9 +54,23 @@ jQuery(document).ready(function($) {
         ],
         [
           {
+            "pre" : "<span><b>Section: </b> ",
+            "field" : "section",
+            "post" : "</span>"
+          }
+        ],
+        [
+          {
+            "pre" : "<span><b> Schedule: </b>",
+            "field" : "url",
+            "post" : "</span>"
+          }
+        ],
+        [
+          {
             "pre" : "<b>Authors:  </b><text>",
             "field" : "authors",
-            "post" : "</text>"
+            "post" : "</text><br>"
           }
         ],
         [
@@ -105,7 +114,7 @@ $('.facetview_filtershow' ).trigger( "click" );
   <div class="content">
     <div class="page-header">
       <h1>
-      Study Search
+      2015 AGU Abstract Search
       </h1>
     </div>
 

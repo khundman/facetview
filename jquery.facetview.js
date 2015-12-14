@@ -643,6 +643,11 @@ search box - the end user will not know they are happening.
                         </table>';
                     _filterTmpl = _filterTmpl.replace(/{{FILTER_NAME}}/g, filters[idx]['field'].replace(/\./gi,'_').replace(/\:/gi,'_')).replace(/{{FILTER_EXACT}}/g, filters[idx]['field']);
                     thefilters += _filterTmpl;
+                    // HACK
+                    if (filters[idx].field == "authors") {
+                        filters[idx]['size'] = 10;
+                    }
+                    //----------
                     if ('size' in filters[idx] ) {
                         thefilters = thefilters.replace(/{{FILTER_HOWMANY}}/gi, filters[idx]['size']);
                     } else {
@@ -899,10 +904,49 @@ search box - the end user will not know they are happening.
                 var facet_filter = $('[id="facetview_'+facetclean+'"]', obj);
                 facet_filter.children().find('.facetview_filtervalue').remove();
                 var records = data["facets"][ facet ];
+
         var years = ['year'];
-                var year_hits = ['hits'];
+        var year_hits = ['hits'];
         var lineChartFacet = false;
         var dendrogramFacet = false;
+        // HACK
+        // console.log(data.facets.authors)
+        auths = []
+        auths_raw = Object.keys(data.facets.authors)
+        for (x in auths_raw){
+            if(auths.indexOf(auths_raw[x].split("::")[0]) == -1){
+                auths.push("\"" + auths_raw[x] + "\"")
+            }
+        }
+        var download = function(content, fileName, mimeType) {
+          var a = document.createElement('a');
+          mimeType = mimeType || 'application/octet-stream';
+
+          if (navigator.msSaveBlob) { // IE10
+            return navigator.msSaveBlob(new Blob([content], { type: mimeType }),     fileName);
+          } else if ('download' in a) { //html5 A[download]
+            a.href = 'data:' + mimeType + ',' + encodeURIComponent(content);
+            a.setAttribute('download', fileName);
+            document.body.appendChild(a);
+            setTimeout(function() {
+              a.click();
+              document.body.removeChild(a);
+            }, 66);
+            return true;
+          } else { //do iframe dataURL download (old ch+FF):
+            var f = document.createElement('iframe');
+            document.body.appendChild(f);
+            f.src = 'data:' + mimeType + ',' + encodeURIComponent(content);
+
+            setTimeout(function() {
+              document.body.removeChild(f);
+            }, 333);
+            return true;
+            }
+        }
+        // download(auths, "solid_auths.csv", 'text/csv')
+        // console.log(auths)
+        
         if (facet == options.linechart_field){
             lineChartFacet = true;
         }
@@ -1215,6 +1259,19 @@ search box - the end user will not know they are happening.
                     var qryval = { 'query': fuzzify(options.q) };
                     $('.facetview_searchfield', obj).val() != "" ? qryval.default_field = $('.facetview_searchfield', obj).val() : "";
                     options.default_operator !== undefined ? qryval.default_operator = options.default_operator : false;
+                    // HACK 
+                    var len = qryval['query'].split(",").length;
+                    if(qryval['query'].indexOf("tectonic") > -1){
+                        qryval['minimum_should_match'] = Math.round(len * 0.4);
+                        console.log("found tect must match " + Math.round(len * 0.4))
+                    }
+                    else{
+                        qryval['minimum_should_match'] = Math.round(len * 0.3);
+                        console.log("must match " + Math.round(len * 0.3))
+                    }
+                    
+                    
+                    // --------------
                     qs['query'] = {'query_string': qryval };
                 } else {
                     qs['query'] = {'match_all': {}};
@@ -1295,6 +1352,7 @@ search box - the end user will not know they are happening.
                 success: showresults
             });
         };
+
 
         // show search help
         var learnmore = function(event) {
