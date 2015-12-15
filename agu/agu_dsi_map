@@ -1,0 +1,29 @@
+{
+	"settings": {
+		"analysis": {
+			"analyzer": {
+				"double": {
+					"type": "pattern",
+					"pattern": "::"
+				}
+			}
+		}
+	}, 
+	"mappings" : {
+		"type1" : {
+	    	"properties" : {
+	        	"abstract" : {"type" : "string", "analyzer":"stop"},
+	        	"title": {"type" : "string", "index" : "not_analyzed" },
+	        	"authors": {"type" : "string", "analyzer":"double"},
+	        	"authors_only": {"type" : "string", "analyzer":"double"},
+	        	"authors_both": {"type" : "string", "analyzer":"double"},
+	        	"affils_only": {"type" : "string", "analyzer":"double"},
+	        	"url": {"type" : "string", "index":"not_analyzed"},
+	        	"content": {"type" : "string"},
+	        	"full_link": {"type" : "string", "index":"not_analyzed"},
+	        	"type": {"type" : "string", "index":"not_analyzed"},
+	        	"section": {"type" : "string", "index":"not_analyzed"}
+	    	}
+		}	
+	}
+}

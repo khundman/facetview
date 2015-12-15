@@ -26,7 +26,7 @@ with open(output + "index", "a") as out:
 				authors = content.find_elements(By.CSS_SELECTOR, "li.RoleListItem")
 				for auth in authors:
 					affil = auth.find_element_by_tag_name("li").text
-					all_auths += auth.find_element_by_tag_name("a").text + "::" + affil + "||"
+					all_auths += auth.find_element_by_tag_name("a").text + "::" + affil + "--"
 				print all_auths
 				# print all_auths
 				# abstract = driver.find_element(By.CLASS_NAME,"item Additional")

@@ -11,6 +11,7 @@ wd = "/users/hundman/documents/data_science/hyspiri_search/facetview-hyspiri-pub
 
 # \n(?!(\s)*\{(\s)*\")
 # \d{5}\" \} \}\n\{ \"index
+#(?<!\} \})\n(?!\{ \"index)
 # (?<!\:)\"(?!(\s)*\}|\, "|(\s)*\:|(\s)*\:(\s)*\"|index|_index|agu_|_type|type1|_id|\d\d\d\d\d|authors|title|abstract)
 
 # "jyr-ching hu", "yun chen"

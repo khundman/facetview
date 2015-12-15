@@ -911,13 +911,13 @@ search box - the end user will not know they are happening.
         var dendrogramFacet = false;
         // HACK
         // console.log(data.facets.authors)
-        auths = []
-        auths_raw = Object.keys(data.facets.authors)
-        for (x in auths_raw){
-            if(auths.indexOf(auths_raw[x].split("::")[0]) == -1){
-                auths.push("\"" + auths_raw[x] + "\"")
-            }
-        }
+        // auths = []
+        // auths_raw = Object.keys(data.facets.authors)
+        // for (x in auths_raw){
+        //     if(auths.indexOf(auths_raw[x].split("::")[0]) == -1){
+        //         auths.push("\"" + auths_raw[x] + "\"")
+        //     }
+        // }
         var download = function(content, fileName, mimeType) {
           var a = document.createElement('a');
           mimeType = mimeType || 'application/octet-stream';

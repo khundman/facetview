@@ -30,11 +30,13 @@
   <script type="text/javascript">
 jQuery(document).ready(function($) {
   $('.facet-view-simple').facetview({
-    "search_url": 'http:<endpoint>/<index>/_search?',
+    "search_url": 'http://search-hyspiri-usewpxxqltz2vmfgyqg2zglosi.us-west-2.es.amazonaws.com/agu_dsi/_search?',
     "search_index": 'elasticsearch',
     "datatype": 'json',
     "facets": [
-        {'field':'authors', 'display':'Authors'},
+        {'field':'type', 'display':'AGU or DSI'},
+        {'field':'authors_only', 'display':'All Authors'},
+        {'field':'authors_both', 'display':'Authors in Both AGU and DSI Papers'},
         {'field':'section', 'display':'Sections'}
     ],
     paging: {
@@ -54,6 +56,13 @@ jQuery(document).ready(function($) {
         ],
         [
           {
+            "pre" : "<span><b>Type: </b> ",
+            "field" : "type",
+            "post" : "</span>"
+          }
+        ],
+        [
+          {
             "pre" : "<span><b>Section: </b> ",
             "field" : "section",
             "post" : "</span>"
@@ -68,8 +77,29 @@ jQuery(document).ready(function($) {
         ],
         [
           {
-            "pre" : "<b>Authors:  </b><text>",
+            "pre" : "<span><b> Full Text: </b>",
+            "field" : "full_link",
+            "post" : "</span>"
+          }
+        ],
+        [
+          {
+            "pre" : "<b>Authors with Affiliations:  </b><text>",
             "field" : "authors",
+            "post" : "</text>"
+          }
+        ],
+        [
+          {
+            "pre" : "<b>Authors: </b><text>",
+            "field" : "authors_only",
+            "post" : "</text>"
+          }
+        ],
+        [
+          {
+            "pre" : "<b>Authors found in Both AGU and DSI Papers: </b><text>",
+            "field" : "authors_both",
             "post" : "</text><br>"
           }
         ],
@@ -82,7 +112,7 @@ jQuery(document).ready(function($) {
         ],
         [
           {
-            "pre" : "<p>",
+            "pre" : "<p><br>",
             "field" : "abstract",
             "post" : "</p>"
           }
@@ -114,7 +144,7 @@ $('.facetview_filtershow' ).trigger( "click" );
   <div class="content">
     <div class="page-header">
       <h1>
-      2015 AGU Abstract Search
+      2015 AGU Abstract and DSI RFP Search
       </h1>
     </div>
 
